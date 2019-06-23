@@ -3,9 +3,10 @@
 #define INCLUDED_AQM
 // code
 #define INPUT_FILENAME "input.csv"
+#define WAVEDATA_LENGTH 10000
 
 typedef struct WaveData {
-  double data[10010];
+  double data[WAVEDATA_LENGTH + 10];
 } WaveData;
 
 #endif
