@@ -17,7 +17,7 @@
 int readfile(WaveData *waveData) {
   FILE *fp;
 
-  if ((fp = fopen(INPUT_FILENAME, "r")) != NULL) {
+  if ((fp = fopen(INPUT_FILENAME, "r")) == NULL) {
     // error処理
     return EXIT_FAILURE;
   }
