@@ -21,7 +21,7 @@ int example_acf(void) {
     return -1;
   }
 
-  printf("%lf\n", acf(&waveData, 5));
+  printf("%lf\n", acf(&waveData, 0, 5));
 
   return 0;
 }
