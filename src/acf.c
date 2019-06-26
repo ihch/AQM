@@ -4,10 +4,10 @@
 #include "readfile.h"
 
 
-double acf(WaveData *waveData, int start, int end, int d) {
+double acf(WaveData *waveData, int begin, int end, int d) {
   double sum = 0.0L;
 
-  for (int i = start; i <= end - d; i++) {
+  for (int i = begin; i <= end - d; i++) {
     sum += waveData->data[i] * waveData->data[i + d];
   }
 
