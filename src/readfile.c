@@ -24,7 +24,7 @@ int readfile(WaveData *waveData) {
 
   int i = 0;
   while (i < WAVEDATA_LENGTH && fgets(readbuf, MAX_LINE_LENGTH, fp) != NULL) {
-    waveData->data[i++] = strtol(readbuf, NULL, 0);
+    waveData->data[i++] = strtod(readbuf, NULL);
   }
 
   return EXIT_SUCCESS;
