@@ -4,10 +4,10 @@
 #include "readfile.h"
 
 
-double acf(WaveData *waveData, int start, int d) {
+double acf(WaveData *waveData, int start, int end, int d) {
   double sum = 0.0L;
 
-  for (int i = start; i < ACF_RANGE - d; i++) {
+  for (int i = start; i <= end - d; i++) {
     sum += waveData->data[i] * waveData->data[i + d];
   }
 
@@ -21,7 +21,9 @@ int example_acf(void) {
     return -1;
   }
 
-  printf("%lf\n", acf(&waveData, 0, 5));
+  for (int i = 0; i < 10; i++) {
+    printf("%lf\n", acf(&waveData, ACF_INTERVAL * i, ACF_INTERVAL * i + ACF_RANGE, 0));
+  }
 
   return 0;
 }

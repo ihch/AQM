@@ -7,6 +7,6 @@
 #define ACF_INTERVAL 100
 #define ACF_END 4000
 
-double acf(WaveData *waveData, int start, int d);
+double acf(WaveData *waveData, int start, int end, int d);
 
 #endif // INCLUDED_ACF
