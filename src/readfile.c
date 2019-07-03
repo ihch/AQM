@@ -5,7 +5,7 @@
 
 /***
  *  args:
- *    WaveData *waveData
+ *    EchoData *echoData
  *
  *  return:
  *    int:
@@ -14,7 +14,7 @@
  *        - EXIT_FAILURE
  * 
  ***/
-int readfile(WaveData *waveData) {
+int readfile(EchoData *echoData) {
   FILE *fp;
   char readbuf[MAX_LINE_LENGTH] = {'\0'};
 
@@ -23,20 +23,20 @@ int readfile(WaveData *waveData) {
   }
 
   int i = 0;
-  while (i < WAVEDATA_LENGTH && fgets(readbuf, MAX_LINE_LENGTH, fp) != NULL) {
-    waveData->data[i++] = strtod(readbuf, NULL);
+  while (i < ECHODATA_LENGTH && fgets(readbuf, MAX_LINE_LENGTH, fp) != NULL) {
+    echoData->data[i++] = strtod(readbuf, NULL);
   }
 
   return EXIT_SUCCESS;
 }
 
 int test_read(void) {
-  WaveData waveData;
-  readfile(&waveData);
+  EchoData echoData;
+  readfile(&echoData);
 
-  // for (int i = 0; i < WAVEDATA_LENGTH; i++) {
+  // for (int i = 0; i < ECHODATA_LENGTH; i++) {
   for (int i = 0; i < 100; i++) {
-    printf("%lf\n", waveData.data[i]);
+    printf("%lf\n", echoData.data[i]);
   }
 
   return 0;
