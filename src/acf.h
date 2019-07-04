@@ -6,8 +6,9 @@
 
 #define ACF_RANGE 200
 #define ACF_INTERVAL 100
-#define ACF_END 4000
+#define SEA_FLOOR_DEPTH 1170
 
-double acf(EchoData *echoData, int begin, int end, int d);
+void acf(double *echoData, int range, Acf *result);
+void acf_control(EchoData *echoData, int range, int interval, int end, Acf *nolag_acf, Acf *max_acf);
 
 #endif // INCLUDED_ACF
