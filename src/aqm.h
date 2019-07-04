@@ -9,4 +9,9 @@ typedef struct EchoData {
   double data[ECHODATA_LENGTH + 10];
 } EchoData;
 
+typedef struct Acf {
+  double acf_result;
+  int lag;
+} Acf;
+
 #endif
