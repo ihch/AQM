@@ -2,6 +2,7 @@
 #define INCLUDED_ACF
 
 #include "aqm.h"
+#include "readfile.h"
 
 #define ACF_RANGE 200
 #define ACF_INTERVAL 100

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "acf.h"
-#include "readfile.h"
 
 
 double acf(EchoData *echoData, int begin, int end, int d) {
