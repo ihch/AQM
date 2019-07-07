@@ -44,20 +44,6 @@ int acf_max(Acf *acfResult, int begin, int end) {
   return lag;
 }
 
-int example_acf(void) {
-  EchoData echoData;
-
-  if (readfile(&echoData) == EXIT_FAILURE) {
-    return -1;
-  }
-
-  for (int i = 0; i < 10; i++) {
-  //  printf("%lf\n", acf(&echoData, ACF_INTERVAL * i, ACF_INTERVAL * i + ACF_RANGE, 0));
-  }
-
-  return 0;
-}
-
 int main(void) { 
   EchoData echoData;
   Acf nolag_acf[SEA_FLOOR_DEPTH / ACF_INTERVAL + 10];
