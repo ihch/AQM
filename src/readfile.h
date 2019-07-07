@@ -4,6 +4,6 @@
 
 #define MAX_LINE_LENGTH 256
 
-int readfile(WaveData *waveData);
+int readfile(EchoData *echoData);
 
 #endif // INCLUDED_READFILE
