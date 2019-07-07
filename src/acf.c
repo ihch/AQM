@@ -34,7 +34,8 @@ void acf_control(EchoData *echoData, int range, int interval, int end, Acf *nola
 int acf_max(Acf *acfResult, int begin, int end) {
   double max_ = 0.0L;
   int lag = -1;
-  for (int i = begin; i < end; i++) {
+
+  for (int i = begin; i <= end; i++) {
     if (max_ <= (acfResult)[i].acf_result) {
       max_ = (acfResult)[i].acf_result;
       lag = (acfResult)[i].lag;
