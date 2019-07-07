@@ -10,5 +10,6 @@
 
 void acf(double *echoData, int range, Acf *result);
 void acf_control(EchoData *echoData, int range, int interval, int end, Acf *nolag_acf, Acf *max_acf);
+int acf_max(Acf *acfResult, int begin, int end);
 
 #endif // INCLUDED_ACF
