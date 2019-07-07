@@ -1,8 +1,5 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include "acf.h"
-
-int acf_max(Acf *acfResult, int begin, int end);
 
 /***
  *  args:
