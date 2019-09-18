@@ -9,8 +9,8 @@ typedef struct Peak {
 } Peak;
 
 void all_peaks(EchoData *echoData, int upper_limit, int lower_limit, Peak *peaks);
-void findpeaks(EchoData *echoData, int upper_limit, int lower_limit, int min_peak_distance, Peak *peaks);
-void distance_filter(int min_peak_distance, Peak *peaks, Peak *result);
+void findpeaks(EchoData *echoData, int upper_limit, int lower_limit, int min_peak_distance, Peak *peaks, Peak *result);
+void distance_filter(int min_peak_distance, Peak *peaks, Peak result[]);
 
 /* compare and sort */
 int compare(const Peak *peak1, const Peak *peak2);
@@ -39,6 +39,21 @@ int main(void) {
     // printf("i: %d, v: %lf\n", i, echoData.data[i]);
   }
 }
+
+int main(void) {
+  Peak peaks[5010], result[512];
+  EchoData echoData;
+  int upper_limit = 40000, lower_limit = 3000;
+  int min_peak_distance = 30;
+  if (readfile(&echoData) == EXIT_FAILURE) {
+    return -1;
+  }
+
+  findpeaks(&echoData, upper_limit, lower_limit, min_peak_distance, peaks, result);
+  for (int i = 0; i < sizeof(result) / sizeof(Peak); i++) {
+    printf("i: %d, depth: %d, peak: %d\n", i, result[i].depth, result[i].peak_value);
+  }
+}
 */
 
 int compare(const Peak *peak1, const Peak *peak2) {
@@ -57,20 +72,26 @@ void all_peaks(EchoData *echoData, int upper_limit, int lower_limit, Peak *peaks
 
     if (lv >= v || rv >= v) continue;
     if (v < lower_limit || upper_limit < v) continue;
-    if (i <= 100) { printf("i: %d, lv: %.2lf, v: %.2lf, rv: %.2lf\n", i, lv, v, rv); }
+    // if (i <= 100) { printf("i: %d, lv: %.2lf, v: %.2lf, rv: %.2lf\n", i, lv, v, rv); }
 
     peaks[peak_pos++] = (Peak){i, v};
   }
 }
 
-void distance_filter(int min_peak_distance, Peak *peaks, Peak *result) {
+void distance_filter(int min_peak_distance, Peak *peaks, Peak result[]) {
   // peaksを降順に見てmin_peak_distanceの範囲にあるものは入れない
+  for (int i = 0; peaks[i].peak_value != 0; i++) {
+    int index = peaks[i].depth / min_peak_distance;
+    if (result[index].peak_value != 0) {
+      continue;
+    }
+      result[index] = peaks[i];
+  }
 }
 
-void findpeaks(EchoData *echoData, int upper_limit, int lower_limit, int min_peak_distance, Peak *peaks) {
-  Peak result[3010];
+void findpeaks(EchoData *echoData, int upper_limit, int lower_limit, int min_peak_distance, Peak *peaks, Peak *result) {
+  memset(result, 0, sizeof(Peak));
   all_peaks(echoData, upper_limit, lower_limit, peaks);
   // filter by min_peak_distance
   distance_filter(min_peak_distance, peaks, result);
 }
-
