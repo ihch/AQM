@@ -10,7 +10,7 @@ typedef struct Peak {
 
 void all_peaks(EchoData *echoData, int upper_limit, int lower_limit, Peak *peaks);
 void findpeaks(EchoData *echoData, int upper_limit, int lower_limit, int min_peak_distance, Peak *peaks);
-int max_peak_pos(Peak *peaks, int len);
+void distance_filter(int min_peak_distance, Peak *peaks, Peak *result);
 
 /* compare and sort */
 int compare(const Peak *peak1, const Peak *peak2);
@@ -63,75 +63,14 @@ void all_peaks(EchoData *echoData, int upper_limit, int lower_limit, Peak *peaks
   }
 }
 
+void distance_filter(int min_peak_distance, Peak *peaks, Peak *result) {
+  // peaksを降順に見てmin_peak_distanceの範囲にあるものは入れない
+}
+
 void findpeaks(EchoData *echoData, int upper_limit, int lower_limit, int min_peak_distance, Peak *peaks) {
-
-  /*
-  int peaks_pos = 0;
-  for (int i = 1; i < ECHODATA_LENGTH; i++) {
-    int lv = echoData->data[i - 1];
-    int v = echoData->data[i];
-    int rv = echoData->data[i + 1];
-    int d = 1;
-    for (int d = 1; lv == echoData->data[i] && i - d >= 0; d++) {
-      lv = echoData->data[i - d];
-    }
-    for (int d = 1; rv == echoData->data[i] && i + d <= ECHODATA_LENGTH; d++) {
-      rv = echoData->data[i + d];
-    }
-    printf("%d\n", i);
-    printf("peaks_pos%d\n", peaks_pos);
-    fflush(stdout);
-
-    // if (lv < v && rv < v) {
-    //   peaks[peaks_pos++] = (Peak){i, echoData->data[i]};
-    // }
-    if (v <= lv || v <= rv) { continue; }
-    if (v < lower_limit || upper_limit < v) { continue; }
-    // peaks[peaks_pos++] = (Peak){i, v};
-    // 更新しながらmin_peak_distanceすると欲しい結果が消されることがある
-    if (peaks_pos == 0) {
-      peaks[peaks_pos++] = (Peak){i, v};
-    }
-    else {
-      if (i - peaks[peaks_pos - 1].depth < min_peak_distance) {
-        printf("before: %d, after: %d\n", peaks[peaks_pos - 1].depth, i);
-        if (peaks[peaks_pos - 1].peak_value < v) {
-          peaks[peaks_pos - 1] = (Peak){i, v};
-        }
-      }
-      else {
-        peaks[peaks_pos++] = (Peak){i, v};
-      }
-    }
-  }
-  */
-
-  // min_peak_distanceする
-  // for (int i = 0; i < peaks_pos; i++) {
-  //   int max_pos = max_peak_pos(peaks, peaks_pos);
-  //   printf("max_pos: %d, v: %d\n", max_pos, peaks[max_pos].peak_value);
-  //   for (int j = max_pos - 1; j >= 0; j--) {
-  //     if (peaks[max_pos].depth - peaks[j].depth < min_peak_distance) {
-  //       peaks[j] = (Peak){0, 0};
-  //     }
-  //   }
-  //   for (int j = max_pos + 1; j <= peaks_pos; j++) {
-  //     if (peaks[j].depth - peaks[max_pos].depth < min_peak_distance) {
-  //       peaks[j] = (Peak){0, 0};
-  //     }
-  //   }
-  // }
+  Peak result[3010];
+  all_peaks(echoData, upper_limit, lower_limit, peaks);
+  // filter by min_peak_distance
+  distance_filter(min_peak_distance, peaks, result);
 }
 
-int max_peak_pos(Peak *peak, int len) {
-  int pos = 0;
-  int max_ = 0;
-  for (int i = 0; i <= len; i++) {
-    if (max_ <= peak[i].peak_value) {
-      max_ = peak[i].peak_value;
-      pos = i;
-    }
-  }
-
-  return pos;
-}
