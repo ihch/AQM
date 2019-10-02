@@ -20,8 +20,17 @@ make
 ./example
 ```
 
-### 入力例 [input/input.csv](https://github.com/nemusou/AQM/blob/develop/src/input.csv)
-### 実行結果 [output/output[2].csv](https://github.com/nemusou/AQM/blob/develop/src/output.csv)
+### 入力例 [input/input.csv](https://github.com/nemusou/AQM/blob/develop/input/input.csv)
+```sh
+cd input
+less input.csv
+```
+
+### 実行結果 [output/output.csv](https://github.com/nemusou/AQM/blob/develop/output/output.csv)
+```sh
+cd output
+less output.csv
+```
 
 ## Develop Environment
 Apple LLVM version 10.0.1 (clang-1001.0.46.4)  
