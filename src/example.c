@@ -20,22 +20,29 @@ int main(void) {
   acf_control(&echoData, ACF_RANGE, ACF_INTERVAL, SEA_FLOOR_DEPTH, nolag_acf, max_acf);
 
   output_file = fopen(OUTPUT_FILE, "w");
+  
+  // ラグ無しのacfの結果
   for (int i = 0; i < SEA_FLOOR_DEPTH / ACF_INTERVAL - 1; i++) {
     if (i != 0) fprintf(output_file, ",");
     fprintf(output_file, "%lf", nolag_acf[i].acf_result);
   }
   fprintf(output_file, "\n");
+  
+  // acfが最大になるラグの時の結果
   for (int i = 0; i < SEA_FLOOR_DEPTH / ACF_INTERVAL - 1; i++) {
     if (i != 0) fprintf(output_file, ",");
     fprintf(output_file, "%lf", max_acf[i].acf_result);
   }
   fprintf(output_file, "\n");
+  
+  // acfが最大になるラグ
   for (int i = 0; i < SEA_FLOOR_DEPTH / ACF_INTERVAL - 1; i++) {
     if (i != 0) fprintf(output_file, ",");
     fprintf(output_file, "%d", max_acf[i].lag);
   }
   fprintf(output_file, "\n\n");
 
+  // findpeaksの結果
   fprintf(output_file, "### findpeaks ###\n");
   findpeaks(&echoData, UPPER_LIMIT, LOWER_LIMIT, MIN_PEAK_DISTANCE, peaks, result);
   for (int i = 0; i < sizeof(result) / sizeof(Peak); i++) {
