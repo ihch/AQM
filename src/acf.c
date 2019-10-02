@@ -1,12 +1,18 @@
-#include <stdlib.h>
 #include "acf.h"
 
-/***
+/**
+ *  function: acf
+ *  description: ある範囲のacfを求める
  *  args:
  *    double *echoData  : acfの開始位置のポインタ
  *    int range         : acfの範囲
+ *
+ *    結果を格納する配列
  *    Acf *result       : acfの結果
- ***/
+ *
+ *  return:
+ *    void
+ **/
 void acf(double *echoData, int range, Acf *result) {
   /* 0 <= lag <= range の範囲のacfを求める */
   for (int lag = 0; lag <= range; lag++) {
@@ -19,15 +25,22 @@ void acf(double *echoData, int range, Acf *result) {
   }
 }
 
-/***
+/**
+ *  function: acf_control
+ *  description: acfの制御関数
  *  args:
- *    EchoData *echoData  : 波形データ
- *    int range           : acfの範囲
- *    int interval        : acfをずらしていく間隔
- *    int end             : acfにかける終端の位置
- *    Acf *nolag_acf      : lagなしのacfの値を保存する配列
- *    Acf *max_acf        : ある範囲でのacfの最大値を保存する配列
- ***/
+ *    EchoData *echoData 波形データ
+ *    int range acfの範囲
+ *    int interval acfをずらしていく間隔
+ *    int end  acfにかける終端の位置
+ *
+ *    結果を格納する配列
+ *    Acf *nolag_acf lagなしのacfの値を保存する配列
+ *    Acf *max_acf ある範囲でのacfの最大値を保存する配列
+ *
+ *  return:
+ *    void
+ **/
 void acf_control(EchoData *echoData, int range, int interval, int end, Acf *nolag_acf, Acf *max_acf) {
   Acf result[ACF_RANGE + 5];
 
@@ -49,17 +62,19 @@ void acf_control(EchoData *echoData, int range, int interval, int end, Acf *nola
   }
 }
 
-/***
+/**
+ *  function: acf_max
+ *  description: acfが最大になるlagの位置を求める
  *  args:
- *    Acf *acfResult  : acfの結果の配列
- *    int begin       : 最大値を求める範囲の開始位置
- *    int end         : 最大値を求める範囲の終端位置
+ *    Acf *acfResult acfの結果の配列
+ *    int begin 最大値を求める範囲の開始位置
+ *    int end 最大値を求める範囲の終端位置
  *
  *  return:
  *    int:
  *      最大値が保存されているlagの値
  *        - begin <= lag <= end
- ***/
+ **/
 int acf_max(Acf *acfResult, int begin, int end) {
   double max_ = 0.0L;
   int lag = -1;
