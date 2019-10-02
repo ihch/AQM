@@ -40,11 +40,17 @@ int compare(const Peak *peak1, const Peak *peak2) {
 void all_peaks(EchoData *echoData, int upper_limit, int lower_limit, Peak *peaks) {
   int peak_pos = 0;
   for (int i = 1; i < ECHODATA_LENGTH - 1; i++) {
-    // TODO 同じ値が連続するときにピーク抽出できるようにする
-    //      違う値が出るまで左に見てlvを更新する
     double lv = echoData->data[i - 1];
     double v = echoData->data[i];
     double rv = echoData->data[i + 1];
+
+    /* 同じ値が連続する場合
+       TODO ピークの位置の位置をどこにするか */
+    if (lv == v) {
+      for (int j = 0; j >= 0 && echoData->data[j] != v; j--) {
+        lv = echoData->data[j];
+      }
+    }
 
     if (lv >= v || rv >= v) continue;
     if (v < lower_limit || upper_limit < v) continue;
