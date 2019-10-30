@@ -10,8 +10,8 @@ int main(void) {
   EchoData echoData;
   Acf nolag_acf[SEA_FLOOR_DEPTH / ACF_INTERVAL + 10];
   Acf max_acf[SEA_FLOOR_DEPTH / ACF_INTERVAL + 10];
-  Peak peaks[ECHODATA_LENGTH / 2 + 10];
-  Peak result[ECHODATA_LENGTH / 2 / MIN_PEAK_DISTANCE + 10];
+  Peak peaks[ECHODATA_LENGTH / 2 + 10] = {0};
+  Peak result[ECHODATA_LENGTH / 2 / MIN_PEAK_DISTANCE + 10] = {0};
   FILE *output_file = NULL;
 
   if (readfile(&echoData) == EXIT_FAILURE) {
