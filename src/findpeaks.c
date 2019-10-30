@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdlib.h>
 #include "acf.h"
 #include "readfile.h"
 #include "findpeaks.h"
@@ -102,5 +103,6 @@ void distance_filter(int min_peak_distance, Peak *peaks, Peak *result) {
 void findpeaks(EchoData *echoData, int upper_limit, int lower_limit, int min_peak_distance, Peak *peaks, Peak *result) {
   memset(result, 0, sizeof(Peak));
   all_peaks(echoData, upper_limit, lower_limit, peaks);
+  qsort(peaks, sizeof(Peak), ECHODATA_LENGTH / 2 + 10, compare);
   distance_filter(min_peak_distance, peaks, result);
 }
