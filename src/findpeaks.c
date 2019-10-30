@@ -1,12 +1,13 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "acf.h"
 #include "readfile.h"
 #include "findpeaks.h"
 
 /**
- *  function: compare
- *  description: Peak構造体の比較関数
+ *  function: compare_peakvalue
+ *  description: Peak構造体peak_valueによる比較関数
  *  ars:
  *    const Peak *peak1
  *    const Peak *peak2
@@ -17,10 +18,32 @@
 *       - 等しい 0
 *       - 左辺が右辺より小さい -1
  **/
-int compare(const Peak *peak1, const Peak *peak2) {
+int compare_peakvalue(const void *p1, const void *p2) {
+  const Peak *peak1 = p1, *peak2 = p2;
   if (peak1->peak_value > peak2->peak_value) { return -1; }
   if (peak1->peak_value < peak2->peak_value) { return 1; }
   if (peak1->depth < peak2->depth) { return -1; }
+  return 1;
+}
+
+/**
+ *  function: compare
+ *  description: Peak構造体のdepthによる比較関数
+ *  ars:
+ *    const Peak *peak1
+ *    const Peak *peak2
+ *
+ *  return:
+ *    int: 左辺値と右辺値の比較
+ *      - 左辺が右辺より大きい 1
+*       - 等しい 0
+*       - 左辺が右辺より小さい -1
+ **/
+int compare_depth(const void *p1, const void *p2) {
+  const Peak *peak1 = p1, *peak2 = p2;
+  if (peak1->depth > peak2->depth) { return 1; }
+  if (peak1->depth < peak2->depth) { return -1; }
+  if (peak1->peak_value < peak2->peak_value) { return 1; }
   return 1;
 }
 
@@ -101,8 +124,14 @@ void distance_filter(int min_peak_distance, Peak *peaks, Peak *result) {
  *    void
  **/
 void findpeaks(EchoData *echoData, int upper_limit, int lower_limit, int min_peak_distance, Peak *peaks, Peak *result) {
-  memset(result, 0, sizeof(Peak));
+  // memset(result, 0, sizeof(Peak));
+  // memset(peaks, 0, sizeof(Peak));
   all_peaks(echoData, upper_limit, lower_limit, peaks);
-  qsort(peaks, sizeof(Peak), ECHODATA_LENGTH / 2 + 10, compare);
+  qsort(peaks, ECHODATA_LENGTH / 2 + 10, sizeof(Peak), compare_peakvalue);
   distance_filter(min_peak_distance, peaks, result);
+  qsort(result, ECHODATA_LENGTH / 2 / MIN_PEAK_DISTANCE + 10, sizeof(Peak), compare_depth);
+  for (int i = 0; i < ECHODATA_LENGTH / 2 / MIN_PEAK_DISTANCE + 10; i++) {
+    printf("peaks[%d] depth %d peak_value %d\n", i, result[i].depth, result[i].peak_value);
+  }
+  fflush(stdout);
 }
